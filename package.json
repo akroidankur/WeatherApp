@@ -1,13 +1,15 @@
 {
   "name": "weather-app",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0 --port 4200 --disable-host-check --o",
+    "start:dev": "ng serve --host 0.0.0.0 --port 4200 --disable-host-check --o --configuration=development",
+    "start:prod": "ng serve --host 0.0.0.0 --port 4200 --disable-host-check --o --configuration=production",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:WeatherApp": "node dist/weather-app/server/server.mjs"
+    "build:dev": "ng build --configuration=development",
+    "build:prod": "ng build --configuration=production",
+    "serve:ssr": "node dist/weather-app/server/server.mjs"
   },
   "private": true,
   "dependencies": {
