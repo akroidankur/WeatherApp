@@ -28,3 +28,8 @@
 }
 
 html, body { height: 100%; }
+
+//remove bottom wrapper from form field angular material
+.mat-mdc-form-field-subscript-wrapper, .mat-mdc-form-field-bottom-align::before{
+  display: none;
+}

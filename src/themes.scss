@@ -1,5 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
+@include mat.core();
+
+$theme-ignore-duplication-warnings: true;
 
 // Light Theme
 $light-theme-primary: mat.define-palette(mat.$pink-palette);
@@ -35,11 +37,9 @@ $light-bg-color: #d2d2d2;
 $semi-light-bg-color: #c0c0c0;
 $dark-text-color: #333;
 
-
 // Dark mode
 .dark {
-  @include mat.all-component-colors($dark-theme);
-
+  @include mat.all-component-themes($dark-theme);
   background-color: $semi-dark-bg-color;
   color: $light-text-color;
 }
