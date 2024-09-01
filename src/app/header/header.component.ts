@@ -6,6 +6,7 @@ import { MatOption } from '@angular/material/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ThemeService } from '../services/theme.service';
 import { TempUnitService } from '../services/tempunit.service';
+import { WeatherService } from '../services/weather.service';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +19,7 @@ export class HeaderComponent implements OnInit {
   private readonly locationService: LocationService = inject(LocationService);
   readonly themeService: ThemeService = inject(ThemeService);
   readonly tempUnitService: TempUnitService = inject(TempUnitService);
+  private weatherService: WeatherService = inject(WeatherService)
 
   locationQuery: string = ''; // Bound to ngModel
   filteredLocations: Array<google.maps.places.AutocompletePrediction> = [];  //autocomplete location list
@@ -25,6 +27,8 @@ export class HeaderComponent implements OnInit {
   constructor( ) {}
 
   ngOnInit(): void {
+      this.weatherService.fetchCurrent('guwahati');
+      console.log(this.weatherService.currentWeather());
       
   }
 
