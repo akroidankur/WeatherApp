@@ -15,17 +15,17 @@
 
   <div class="d-flex flex-row justify-content-between align-items-center">
 
-    </div>
+  </div>
 
   <div class="d-flex flex-row justify-content-between align-items-center">
-    <button mat-icon-button (click)="onUnitChange()">
+    <button mat-icon-button (click)="onUnitChange()" class="d-flex justify-content-center align-items-center">
       @if (tempUnitService.unitSignal() === 'cel') {
-        <span>°F</span>
+      <span>°F</span>
       }
       @else {
-        <span>°C</span>
+      <span>°C</span>
 
-    }
+      }
     </button>
 
     <button mat-icon-button (click)="toggleTheme()">
