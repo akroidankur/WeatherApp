@@ -27,9 +27,22 @@
   font-family: 'Poppins', sans-serif;
 }
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 
 //remove bottom wrapper from form field angular material
-.mat-mdc-form-field-subscript-wrapper, .mat-mdc-form-field-bottom-align::before{
+.mat-mdc-form-field-subscript-wrapper,
+.mat-mdc-form-field-bottom-align::before {
   display: none;
+}
+
+.logo{
+  width: 15%;
+}
+
+.temp-icon {
+  width: 25px;
+  margin-bottom: 1%;
 }

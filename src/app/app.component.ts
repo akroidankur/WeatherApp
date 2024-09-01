@@ -5,6 +5,7 @@ import { MaterialModule } from './helper/material.module';
 import { HeaderComponent } from './header/header.component';
 import { ThemeService } from './services/theme.service';
 import { TempUnitService } from './services/tempunit.service';
+import { WeatherService } from './services/weather.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,8 @@ export class AppComponent implements OnInit {
   private readonly document: Document = inject(DOCUMENT);
   private readonly themeService: ThemeService = inject(ThemeService);
   private readonly tempUnitService: TempUnitService = inject(TempUnitService);
+  readonly weatherService: WeatherService = inject(WeatherService)
+
 
   constructor() {
     // Reactively watch for changes
@@ -28,8 +31,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.checkTheme();
-    this.checkTempUnit();
+
   }
 
   //theme

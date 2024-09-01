@@ -150,3 +150,13 @@ export interface ForecastWeatherInterface {
     current: Current;
     forecast: Forecast;
 }
+
+export interface MainCities {
+    guwahati: CurrentWeatherInterface;
+    delhi: CurrentWeatherInterface;
+    mumbai: CurrentWeatherInterface;
+    bengaluru: CurrentWeatherInterface;
+    hyderabad: CurrentWeatherInterface;
+    kolkata: CurrentWeatherInterface;
+    chennai: CurrentWeatherInterface;
+}

@@ -1,5 +1,10 @@
 <mat-toolbar class="d-flex flex-row justify-content-between align-items-center">
-  <span>Weather Dashboard</span>
+  @if (!themeService.isThemeLight()) {
+    <img src="../../assets/inverted-new-vc-logo.png" alt="" class="logo">
+  }
+  @else {
+    <img src="../../assets/new-vc-logo.png" alt="" class="logo">
+  }
 
   <mat-form-field appearance="outline">
     <mat-label>Location</mat-label>
@@ -14,7 +19,22 @@
   </mat-form-field>
 
   <div class="d-flex flex-row justify-content-between align-items-center">
-
+    <mat-chip-set>
+      @for (value of objectValues(mainCities? mainCities : null); track value) {
+      @if (value) {
+      <mat-chip class="d-flex flex-row justify-content-between align-items-center">
+        <span>{{value.location.name + ' '}}</span>
+        @if (tempUnitService.unitSignal() === 'cel') {
+        <span>{{value.current.temp_c + ' °C'}}</span>
+        }
+        @else {
+        <span>{{value.current.temp_f + ' °F'}}</span>
+        }
+        <img [src]="value.current.condition.icon" alt="" class="temp-icon">
+      </mat-chip>
+      }
+      }
+    </mat-chip-set>
   </div>
 
   <div class="d-flex flex-row justify-content-between align-items-center">

@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CurrentWeatherInterface, ForecastWeatherInterface, SearchLocationInterface } from '../interfaces/weatherapi';
-import { catchError, of } from 'rxjs';
+import { catchError, finalize, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,8 @@ import { catchError, of } from 'rxjs';
 export class WeatherService {
   private readonly http: HttpClient = inject(HttpClient);
   private readonly apiKey: string = environment.API_KEY;
+
+  readonly isLoading = signal<boolean>(false);
 
   // Signals for storing responses
   readonly searchResult = signal<SearchLocationInterface | null>(null);
@@ -23,11 +25,15 @@ export class WeatherService {
 
   //fetch location search
   fetchSearch(location: string): void {
+    this.isLoading.set(true);
     this.http.get<SearchLocationInterface>(`/api/search.json?key=${this.apiKey}&q=${location}`)
       .pipe(
         catchError(error => {
           this.searchError.set(`Failed to fetch search results. Error: ${error}`);
           return of(null); // Return a null observable in case of error
+        }),
+        finalize(() => {
+          this.isLoading.set(false);
         })
       )
       .subscribe(response => {
@@ -40,11 +46,15 @@ export class WeatherService {
 
   //fetch current weather with given location
   fetchCurrent(location: string): void {
+    this.isLoading.set(true);
     this.http.get<CurrentWeatherInterface>(`/api/current.json?key=${this.apiKey}&q=${location}`)
       .pipe(
         catchError(error => {
           this.currentWeatherError.set(`Failed to fetch current weather. Error: ${error}`);
           return of(null);
+        }),
+        finalize(() => {
+          this.isLoading.set(false);
         })
       )
       .subscribe(response => {
@@ -57,11 +67,15 @@ export class WeatherService {
 
   //fetch forecast weather with given location
   fetchForecast(location: string): void {
+    this.isLoading.set(true);
     this.http.get<ForecastWeatherInterface>(`/api/forecast.json?key=${this.apiKey}&q=${location}`)
       .pipe(
         catchError(error => {
           this.forecastWeatherError.set(`Failed to fetch weather forecast. Error: ${error}`);
           return of(null);
+        }),
+        finalize(() => {
+          this.isLoading.set(false);
         })
       )
       .subscribe(response => {

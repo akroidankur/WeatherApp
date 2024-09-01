@@ -11,6 +11,9 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { NgForm } from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @NgModule({
@@ -27,6 +30,9 @@ import { NgForm } from '@angular/forms';
     MatInputModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatCardModule,
+    MatChipsModule,
+    MatTabsModule
   ],
   exports: [
     MatProgressBarModule,
@@ -39,7 +45,10 @@ import { NgForm } from '@angular/forms';
     MatInputModule,
     MatSelectModule,
     MatAutocompleteModule,
-    NgForm
+    NgForm,
+    MatCardModule,
+    MatChipsModule,
+    MatTabsModule
   ]
 })
 export class MaterialModule { }
