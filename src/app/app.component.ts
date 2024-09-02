@@ -1,37 +1,30 @@
-import { Component, effect, inject, OnInit, Renderer2 } from '@angular/core';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { Component, effect, inject, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MaterialModule } from './helper/material.module';
 import { HeaderComponent } from './header/header.component';
 import { ThemeService } from './services/theme.service';
-import { TempUnitService } from './services/tempunit.service';
 import { WeatherService } from './services/weather.service';
+import { WeatherUiComponent } from "./weather-ui/weather-ui.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, MaterialModule, HeaderComponent],
+  imports: [RouterOutlet, MaterialModule, HeaderComponent, WeatherUiComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   private readonly renderer: Renderer2 = inject(Renderer2);
   private readonly document: Document = inject(DOCUMENT);
   private readonly themeService: ThemeService = inject(ThemeService);
-  private readonly tempUnitService: TempUnitService = inject(TempUnitService);
   readonly weatherService: WeatherService = inject(WeatherService)
-
 
   constructor() {
     // Reactively watch for changes
     effect(() => {
       this.checkTheme();
-      this.checkTempUnit();
     });
-  }
-
-  ngOnInit(): void {
-
   }
 
   //theme
@@ -52,10 +45,5 @@ export class AppComponent implements OnInit {
   private setLightTheme(): void {
     this.renderer.removeClass(this.document.body, 'dark');
     this.renderer.addClass(this.document.body, 'light');
-  }
-
-  //temp unit
-  private checkTempUnit(): void {
-    console.log(this.tempUnitService.unitSignal());
   }
 }

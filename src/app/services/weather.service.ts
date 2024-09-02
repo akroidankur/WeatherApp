@@ -68,7 +68,7 @@ export class WeatherService {
   //fetch forecast weather with given location
   fetchForecast(location: string): void {
     this.isLoading.set(true);
-    this.http.get<ForecastWeatherInterface>(`/api/forecast.json?key=${this.apiKey}&q=${location}`)
+    this.http.get<ForecastWeatherInterface>(`/api/forecast.json?key=${this.apiKey}&q=${location}&days=14`)
       .pipe(
         catchError(error => {
           this.forecastWeatherError.set(`Failed to fetch weather forecast. Error: ${error}`);

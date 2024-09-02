@@ -1,0 +1,167 @@
+<main class="container">
+    <mat-card class="m-2">
+        <mat-card-content>
+            <mat-chip-set class="d-flex flex-row justify-content-center align-items-center">
+                @for (value of objectValuesMainCities(mainCities? mainCities : null); track value) {
+                @if (value) {
+                <mat-chip>
+                    <div (click)="citiesClicked(value.location.name)"
+                        class="chips d-flex flex-row justify-content-between align-items-center">
+                        <span>{{value.location.name}}</span>
+                        @if (tempUnitService.unitSignal() === 'cel') {
+                        <span class="mx-1">{{value.current.temp_c + ' °C'}}</span>
+                        }
+                        @else {
+                        <span class="mx-1">{{value.current.temp_f + ' °F'}}</span>
+                        }
+                        <img [src]="value.current.condition.icon" alt="" class="temp-icon-header">
+                    </div>
+                </mat-chip>
+                }
+                }
+            </mat-chip-set>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="m-2">
+        <mat-card-content>
+            <div class="row mb-2">
+                <div class="col">
+                    @if (!weatherService.isLoading()) {
+                    <span>Current Location: </span>
+                    <span class="fs-5 mf-1">{{getLocationString()}}</span>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+                </div>
+                <div class="col">
+                    @if (!weatherService.isLoading()) {
+                    <span>Last updated: </span>
+                    <span class="fs-5 mf-1">{{getDateString() | date: 'medium'}}</span>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col text-wrap d-flex flex-row justify-content-start align-items-start">
+                    @if (!weatherService.isLoading()) {
+                    <img [src]="getIconUrl()" alt="" class="temp-icon-main">
+                    <div class="d-flex flex-column justify-content-start align-items-start">
+                        <span class="fs-2">{{getCurrentTemp(tempUnitService.unitSignal())}}</span>
+                        <span class="fs-5">{{getCondition()}}</span>
+                    </div>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+                </div>
+
+                <div class="col text-wrap d-flex flex-row justify-content-start align-items-center">
+                    @if (!weatherService.isLoading()) {
+                    <span>Feels Like: </span>
+                    <span class="fs-2 mx-1">{{getFeelsLikeTemp(tempUnitService.unitSignal())}}</span>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <mat-chip-set class="d-flex flex-row justify-content-center align-items-center">
+                    @if (!weatherService.isLoading()) {
+                    <mat-chip>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <span>Wind Speed:</span>
+                            <span class="fs-5 ms-1">{{getWindSpeed()}}</span>
+                        </div>
+                    </mat-chip>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+
+                    @if (!weatherService.isLoading()) {
+                    <mat-chip>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <span>Humidity:</span>
+                            <span class="fs-5 ms-1">{{getHumidity()}}</span>
+                        </div>
+                    </mat-chip>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+
+                    @if (!weatherService.isLoading()) {
+                    <mat-chip>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <span>Cloud:</span>
+                            <span class="fs-5 ms-1">{{getCloud()}}</span>
+                        </div>
+                    </mat-chip>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+
+                    @if (!weatherService.isLoading()) {
+                    <mat-chip>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <span>UV:</span>
+                            <span class="fs-5 ms-1">{{getUV()}}</span>
+                        </div>
+                    </mat-chip>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+
+                    @if (!weatherService.isLoading()) {
+                    <mat-chip>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <span>Precipitation:</span>
+                            <span class="fs-5 ms-1">{{getPrecipitation()}}</span>
+                        </div>
+                    </mat-chip>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+
+                    @if (!weatherService.isLoading()) {
+                    <mat-chip>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <span>Pressure:</span>
+                            <span class="fs-5 ms-1">{{getPressure()}}</span>
+                        </div>
+                    </mat-chip>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+
+                    @if (!weatherService.isLoading()) {
+                    <mat-chip>
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <span>Heat Index:</span>
+                            <span class="fs-5 ms-1">{{getHeatIndex(tempUnitService.unitSignal())}}</span>
+                        </div>
+                    </mat-chip>
+                    }
+                    @else {
+                    <mat-spinner [diameter]="50"></mat-spinner>
+                    }
+                </mat-chip-set>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="m-2">
+        <mat-card-content>Simple card</mat-card-content>
+    </mat-card>
+</main>

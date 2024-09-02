@@ -39,10 +39,18 @@ body {
 }
 
 .logo{
-  width: 15%;
+  width: 220px;
 }
 
-.temp-icon {
+.temp-icon-header {
   width: 25px;
   margin-bottom: 1%;
+}
+
+.temp-icon-main {
+  width: 80px;
+}
+
+.chips{
+  cursor: pointer;
 }

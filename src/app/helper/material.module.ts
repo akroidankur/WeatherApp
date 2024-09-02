@@ -14,7 +14,8 @@ import { NgForm } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTabsModule} from '@angular/material/tabs';
-
+import { DatePipe } from '@angular/common';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [],
@@ -32,9 +33,12 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatAutocompleteModule,
     MatCardModule,
     MatChipsModule,
-    MatTabsModule
+    MatTabsModule,
+    DatePipe,
+    MatProgressSpinnerModule
   ],
   exports: [
+    CommonModule,
     MatProgressBarModule,
     MatToolbarModule,
     MatIconModule,
@@ -48,7 +52,9 @@ import {MatTabsModule} from '@angular/material/tabs';
     NgForm,
     MatCardModule,
     MatChipsModule,
-    MatTabsModule
+    MatTabsModule,
+    DatePipe,
+    MatProgressSpinnerModule
   ]
 })
 export class MaterialModule { }

@@ -1,66 +1,49 @@
-<mat-toolbar class="d-flex flex-row justify-content-between align-items-center">
-  @if (!themeService.isThemeLight()) {
+<mat-toolbar>
+  <div class="container d-flex flex-row justify-content-between align-items-center">
+    @if (!themeService.isThemeLight()) {
     <img src="../../assets/inverted-new-vc-logo.png" alt="" class="logo">
-  }
-  @else {
+    }
+    @else {
     <img src="../../assets/new-vc-logo.png" alt="" class="logo">
-  }
+    }
 
-  <mat-form-field appearance="outline">
-    <mat-label>Location</mat-label>
-    <input matInput [matAutocomplete]="auto" [(ngModel)]="locationQuery" (ngModelChange)="onQueryChange($event)">
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-      @for (location of filteredLocations; track location.place_id) {
-      <mat-option [value]="location.description">
-        {{ location.description }}
-      </mat-option>
-      }
-    </mat-autocomplete>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Location</mat-label>
+      <input matInput [matAutocomplete]="auto" [(ngModel)]="locationQuery" (ngModelChange)="onQueryChange($event)">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+        @for (location of filteredLocations; track location.place_id) {
+        <mat-option [value]="location.description">
+          {{ location.description }}
+        </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
 
-  <div class="d-flex flex-row justify-content-between align-items-center">
-    <mat-chip-set>
-      @for (value of objectValues(mainCities? mainCities : null); track value) {
-      @if (value) {
-      <mat-chip class="d-flex flex-row justify-content-between align-items-center">
-        <span>{{value.location.name + ' '}}</span>
+    <div class="d-flex flex-row justify-content-between align-items-center">
+      <button mat-icon-button (click)="onUnitChange()" class="d-flex justify-content-center align-items-center">
         @if (tempUnitService.unitSignal() === 'cel') {
-        <span>{{value.current.temp_c + ' °C'}}</span>
+        <span>°F</span>
         }
         @else {
-        <span>{{value.current.temp_f + ' °F'}}</span>
+        <span>°C</span>
+
         }
-        <img [src]="value.current.condition.icon" alt="" class="temp-icon">
-      </mat-chip>
-      }
-      }
-    </mat-chip-set>
-  </div>
+      </button>
 
-  <div class="d-flex flex-row justify-content-between align-items-center">
-    <button mat-icon-button (click)="onUnitChange()" class="d-flex justify-content-center align-items-center">
-      @if (tempUnitService.unitSignal() === 'cel') {
-      <span>°F</span>
-      }
-      @else {
-      <span>°C</span>
+      <button mat-icon-button (click)="toggleTheme()">
+        @if (themeService.isThemeLight()) {
+        <mat-icon>dark_mode</mat-icon>
+        }
+        @else {
+        <mat-icon>light_mode</mat-icon>
+        }
+      </button>
+    </div>
 
-      }
+    @if (false) {
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
     </button>
-
-    <button mat-icon-button (click)="toggleTheme()">
-      @if (themeService.isThemeLight()) {
-      <mat-icon>dark_mode</mat-icon>
-      }
-      @else {
-      <mat-icon>light_mode</mat-icon>
-      }
-    </button>
+    }
   </div>
-
-  @if (false) {
-  <button mat-icon-button>
-    <mat-icon>menu</mat-icon>
-  </button>
-  }
 </mat-toolbar>

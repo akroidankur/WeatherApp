@@ -1,162 +1,167 @@
 interface Condition {
-    text: string;
-    icon: string;
-    code: number;
+    readonly text: string;
+    readonly icon: string;
+    readonly code: number;
 }
 
 interface Location {
-    name: string;
-    region: string;
-    country: string;
-    lat: number;
-    lon: number;
-    tz_id: string;
-    localtime_epoch: number;
-    localtime: string;
+    readonly name: string;
+    readonly region: string;
+    readonly country: string;
+    readonly lat: number;
+    readonly lon: number;
+    readonly tz_id: string;
+    readonly localtime_epoch: number;
+    readonly localtime: string;
 }
 
 interface Current {
-    last_updated_epoch: number;
-    last_updated: string;
-    temp_c: number;
-    temp_f: number;
-    is_day: number;
-    condition: Condition;
-    wind_mph: number;
-    wind_kph: number;
-    wind_degree: number;
-    wind_dir: string;
-    pressure_mb: number;
-    pressure_in: number;
-    precip_mm: number;
-    precip_in: number;
-    humidity: number;
-    cloud: number;
-    feelslike_c: number;
-    feelslike_f: number;
-    windchill_c: number;
-    windchill_f: number;
-    heatindex_c: number;
-    heatindex_f: number;
-    dewpoint_c: number;
-    dewpoint_f: number;
-    vis_km: number;
-    vis_miles: number;
-    uv: number;
-    gust_mph: number;
-    gust_kph: number;
+    readonly last_updated_epoch: number;
+    readonly last_updated: string;
+    readonly temp_c: number;
+    readonly temp_f: number;
+    readonly is_day: number;
+    readonly condition: Condition;
+    readonly wind_mph: number;
+    readonly wind_kph: number;
+    readonly wind_degree: number;
+    readonly wind_dir: string;
+    readonly pressure_mb: number;
+    readonly pressure_in: number;
+    readonly precip_mm: number;
+    readonly precip_in: number;
+    readonly humidity: number;
+    readonly cloud: number;
+    readonly feelslike_c: number;
+    readonly feelslike_f: number;
+    readonly windchill_c: number;
+    readonly windchill_f: number;
+    readonly heatindex_c: number;
+    readonly heatindex_f: number;
+    readonly dewpoint_c: number;
+    readonly dewpoint_f: number;
+    readonly vis_km: number;
+    readonly vis_miles: number;
+    readonly uv: number;
+    readonly gust_mph: number;
+    readonly gust_kph: number;
 }
 
 interface Day {
-    maxtemp_c: number;
-    maxtemp_f: number;
-    mintemp_c: number;
-    mintemp_f: number;
-    avgtemp_c: number;
-    avgtemp_f: number;
-    maxwind_mph: number;
-    maxwind_kph: number;
-    totalprecip_mm: number;
-    totalprecip_in: number;
-    totalsnow_cm: number;
-    avgvis_km: number;
-    avgvis_miles: number;
-    avghumidity: number;
-    daily_will_it_rain: number;
-    daily_chance_of_rain: number;
-    daily_will_it_snow: number;
-    daily_chance_of_snow: number;
-    condition: Condition;
-    uv: number;
+    readonly maxtemp_c: number;
+    readonly maxtemp_f: number;
+    readonly mintemp_c: number;
+    readonly mintemp_f: number;
+    readonly avgtemp_c: number;
+    readonly avgtemp_f: number;
+    readonly maxwind_mph: number;
+    readonly maxwind_kph: number;
+    readonly totalprecip_mm: number;
+    readonly totalprecip_in: number;
+    readonly totalsnow_cm: number;
+    readonly avgvis_km: number;
+    readonly avgvis_miles: number;
+    readonly avghumidity: number;
+    readonly daily_will_it_rain: number;
+    readonly daily_chance_of_rain: number;
+    readonly daily_will_it_snow: number;
+    readonly daily_chance_of_snow: number;
+    readonly condition: Condition;
+    readonly uv: number;
 }
 
 interface Astro {
-    sunrise: string;
-    sunset: string;
-    moonrise: string;
-    moonset: string;
-    moon_phase: string;
-    moon_illumination: number;
-    is_moon_up: number;
-    is_sun_up: number;
+    readonly sunrise: string;
+    readonly sunset: string;
+    readonly moonrise: string;
+    readonly moonset: string;
+    readonly moon_phase: string;
+    readonly moon_illumination: number;
+    readonly is_moon_up: number;
+    readonly is_sun_up: number;
 }
 
 interface Hour {
-    time_epoch: number;
-    time: string;
-    temp_c: number;
-    temp_f: number;
-    is_day: number;
-    condition: Condition;
-    wind_mph: number;
-    wind_kph: number;
-    wind_degree: number;
-    wind_dir: string;
-    pressure_mb: number;
-    pressure_in: number;
-    precip_mm: number;
-    precip_in: number;
-    snow_cm: number;
-    humidity: number;
-    cloud: number;
-    feelslike_c: number;
-    feelslike_f: number;
-    windchill_c: number;
-    windchill_f: number;
-    heatindex_c: number;
-    heatindex_f: number;
-    dewpoint_c: number;
-    dewpoint_f: number;
-    will_it_rain: number;
-    chance_of_rain: number;
-    will_it_snow: number;
-    chance_of_snow: number;
-    vis_km: number;
-    vis_miles: number;
-    gust_mph: number;
-    gust_kph: number;
-    uv: number;
+    readonly time_epoch: number;
+    readonly time: string;
+    readonly temp_c: number;
+    readonly temp_f: number;
+    readonly is_day: number;
+    readonly condition: Condition;
+    readonly wind_mph: number;
+    readonly wind_kph: number;
+    readonly wind_degree: number;
+    readonly wind_dir: string;
+    readonly pressure_mb: number;
+    readonly pressure_in: number;
+    readonly precip_mm: number;
+    readonly precip_in: number;
+    readonly snow_cm: number;
+    readonly humidity: number;
+    readonly cloud: number;
+    readonly feelslike_c: number;
+    readonly feelslike_f: number;
+    readonly windchill_c: number;
+    readonly windchill_f: number;
+    readonly heatindex_c: number;
+    readonly heatindex_f: number;
+    readonly dewpoint_c: number;
+    readonly dewpoint_f: number;
+    readonly will_it_rain: number;
+    readonly chance_of_rain: number;
+    readonly will_it_snow: number;
+    readonly chance_of_snow: number;
+    readonly vis_km: number;
+    readonly vis_miles: number;
+    readonly gust_mph: number;
+    readonly gust_kph: number;
+    readonly uv: number;
 }
 
 interface ForecastDay {
-    date: string;
-    date_epoch: number;
-    day: Day;
-    astro: Astro;
-    hour: Array<Hour>;
+    readonly date: string;
+    readonly date_epoch: number;
+    readonly day: Day;
+    readonly astro: Astro;
+    readonly hour: Array<Hour>;
 }
 
 interface Forecast {
-    forecastday: Array<ForecastDay>;
+    readonly forecastday: Array<ForecastDay>;
 }
 
 export interface SearchLocationInterface {
-    id: number;
-    name: string;
-    region: string;
-    country: string;
-    lat: number;
-    lon: number;
-    url: string;
+    readonly id: number;
+    readonly name: string;
+    readonly region: string;
+    readonly country: string;
+    readonly lat: number;
+    readonly lon: number;
+    readonly url: string;
 }
 
 export interface CurrentWeatherInterface {
-    location: Location;
-    current: Current;
+    readonly location: Location;
+    readonly current: Current;
 }
 
 export interface ForecastWeatherInterface {
-    location: Location;
-    current: Current;
-    forecast: Forecast;
+    readonly location: Location;
+    readonly current: Current;
+    readonly forecast: Forecast;
 }
 
 export interface MainCities {
-    guwahati: CurrentWeatherInterface;
-    delhi: CurrentWeatherInterface;
-    mumbai: CurrentWeatherInterface;
-    bengaluru: CurrentWeatherInterface;
-    hyderabad: CurrentWeatherInterface;
-    kolkata: CurrentWeatherInterface;
-    chennai: CurrentWeatherInterface;
+    readonly guwahati: CurrentWeatherInterface;
+    readonly delhi: CurrentWeatherInterface;
+    readonly mumbai: CurrentWeatherInterface;
+    readonly bengaluru: CurrentWeatherInterface;
+    readonly hyderabad: CurrentWeatherInterface;
+    readonly kolkata: CurrentWeatherInterface;
+    readonly chennai: CurrentWeatherInterface;
+}
+
+export interface CurrentDefaultLocation {
+    readonly latitude: number;
+    readonly longitude: number;
 }
