@@ -7,7 +7,7 @@
     <img src="../../assets/new-vc-logo.png" alt="" class="logo">
     }
 
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" *ngIf="!isSmallWidth()">
       <mat-label>Location</mat-label>
       <input matInput [matAutocomplete]="auto" [(ngModel)]="locationQuery" (ngModelChange)="onQueryChange($event)">
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
@@ -39,11 +39,5 @@
         }
       </button>
     </div>
-
-    @if (false) {
-    <button mat-icon-button>
-      <mat-icon>menu</mat-icon>
-    </button>
-    }
   </div>
 </mat-toolbar>

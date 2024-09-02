@@ -118,7 +118,7 @@ interface Hour {
     readonly uv: number;
 }
 
-interface ForecastDay {
+export interface ForecastDay {
     readonly date: string;
     readonly date_epoch: number;
     readonly day: Day;

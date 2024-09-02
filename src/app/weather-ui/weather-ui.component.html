@@ -1,6 +1,20 @@
 <main class="container">
+    <mat-form-field appearance="outline" *ngIf="isSmallWidth()" class="w-100 my-2">
+        <mat-label>Location</mat-label>
+        <input matInput [matAutocomplete]="auto" [(ngModel)]="locationQuery" (ngModelChange)="onQueryChange($event)">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
+          @for (location of filteredLocations; track location.place_id) {
+          <mat-option [value]="location.description">
+            {{ location.description }}
+          </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
     <mat-card class="m-2">
         <mat-card-content>
+            <span class="fs-5">Major Cities</span>
+
             <mat-chip-set class="d-flex flex-row justify-content-center align-items-center">
                 @for (value of objectValuesMainCities(mainCities? mainCities : null); track value) {
                 @if (value) {
@@ -25,10 +39,12 @@
 
     <mat-card class="m-2">
         <mat-card-content>
+            <span class="fs-5">Current Condition</span>
+
             <div class="row mb-2">
                 <div class="col">
                     @if (!weatherService.isLoading()) {
-                    <span>Current Location: </span>
+                    <span>Location: </span>
                     <span class="fs-5 mf-1">{{getLocationString()}}</span>
                     }
                     @else {
@@ -37,7 +53,7 @@
                 </div>
                 <div class="col">
                     @if (!weatherService.isLoading()) {
-                    <span>Last updated: </span>
+                    <span>Updated at: </span>
                     <span class="fs-5 mf-1">{{getDateString() | date: 'medium'}}</span>
                     }
                     @else {
@@ -162,6 +178,19 @@
     </mat-card>
 
     <mat-card class="m-2">
-        <mat-card-content>Simple card</mat-card-content>
+        <mat-card-content>
+            <span class="fs-5">14 Days Forecast</span>
+            <mat-tab-group>
+                @for (forecastDay of getForeCast14Days(); track forecastDay) {
+                <mat-tab [label]="forecastDay.date">
+                    <mat-card class="m-2">
+                        <mat-card-content>
+                            {{forecastDay.day.maxtemp_c}}
+                        </mat-card-content>
+                    </mat-card>
+                </mat-tab>
+                }
+            </mat-tab-group>
+        </mat-card-content>
     </mat-card>
 </main>

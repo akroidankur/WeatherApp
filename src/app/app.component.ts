@@ -6,6 +6,7 @@ import { HeaderComponent } from './header/header.component';
 import { ThemeService } from './services/theme.service';
 import { WeatherService } from './services/weather.service';
 import { WeatherUiComponent } from "./weather-ui/weather-ui.component";
+import { WidthService } from './services/width.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ export class AppComponent {
   private readonly renderer: Renderer2 = inject(Renderer2);
   private readonly document: Document = inject(DOCUMENT);
   private readonly themeService: ThemeService = inject(ThemeService);
-  readonly weatherService: WeatherService = inject(WeatherService)
+  readonly weatherService: WeatherService = inject(WeatherService);
 
   constructor() {
     // Reactively watch for changes

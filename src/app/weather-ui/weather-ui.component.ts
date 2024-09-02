@@ -1,8 +1,11 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
 import { MaterialModule } from '../helper/material.module';
-import { CurrentDefaultLocation, CurrentWeatherInterface, ForecastWeatherInterface, MainCities } from '../interfaces/weatherapi';
+import { CurrentDefaultLocation, CurrentWeatherInterface, ForecastDay, ForecastWeatherInterface, MainCities } from '../interfaces/weatherapi';
 import { WeatherService } from '../services/weather.service';
 import { TempUnitService } from '../services/tempunit.service';
+import { WidthService } from '../services/width.service';
+import { LocationService } from '../services/location.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-weather-ui',
@@ -14,6 +17,11 @@ import { TempUnitService } from '../services/tempunit.service';
 export class WeatherUiComponent implements OnInit {
   readonly weatherService: WeatherService = inject(WeatherService);
   readonly tempUnitService: TempUnitService = inject(TempUnitService);
+  private readonly widthService: WidthService = inject(WidthService);
+  private readonly locationService: LocationService = inject(LocationService);
+
+  locationQuery: string = ''; // Bound to ngModel
+  filteredLocations: Array<google.maps.places.AutocompletePrediction> = [];  //autocomplete location list
 
   location!: CurrentDefaultLocation;
   defaultLocationForecast!: ForecastWeatherInterface | null;
@@ -24,6 +32,7 @@ export class WeatherUiComponent implements OnInit {
   constructor() {
     effect(() => {
       this.defaultLocationForecast = this.weatherService.forecastWeather();
+      this.widthService.width();
       console.log(this.defaultLocationForecast);
     });
   }
@@ -40,6 +49,18 @@ export class WeatherUiComponent implements OnInit {
       const errorMsg = `Not supported in ssr or Unable to retrieve location: ${(error as Error).message}`;
       console.error(errorMsg);
     }
+  }
+
+  //auto complete location request
+  onQueryChange(query: string): void {
+    this.locationService.fetchLocations(query, (results) => {
+      this.filteredLocations = results;
+    });
+  }
+
+  //on selection of a location from options
+  onOptionSelected(event: MatAutocompleteSelectedEvent): void {
+    this.weatherService.fetchForecast(event.option.value);
   }
 
   //fetch geolaction current
@@ -96,7 +117,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
-  citiesClicked(city: string): void{
+  citiesClicked(city: string): void {
     this.weatherService.fetchForecast(city);
   }
 
@@ -230,5 +251,18 @@ export class WeatherUiComponent implements OnInit {
     else {
       return ''
     }
+  }
+
+  getForeCast14Days(): Array<ForecastDay> {
+    if (this.defaultLocationForecast) {
+      return this.defaultLocationForecast.forecast.forecastday
+    }
+    else {
+      return [];
+    }
+  }
+
+  isSmallWidth(): boolean {
+    return parseInt(this.widthService.width()) < 768
   }
 }
