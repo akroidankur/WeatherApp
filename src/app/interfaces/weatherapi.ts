@@ -81,7 +81,7 @@ interface Astro {
     readonly is_sun_up: number;
 }
 
-interface Hour {
+export interface Hour {
     readonly time_epoch: number;
     readonly time: string;
     readonly temp_c: number;

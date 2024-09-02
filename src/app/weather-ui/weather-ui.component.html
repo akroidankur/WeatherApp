@@ -3,13 +3,13 @@
         <mat-label>Location</mat-label>
         <input matInput [matAutocomplete]="auto" [(ngModel)]="locationQuery" (ngModelChange)="onQueryChange($event)">
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-          @for (location of filteredLocations; track location.place_id) {
-          <mat-option [value]="location.description">
-            {{ location.description }}
-          </mat-option>
-          }
+            @for (location of filteredLocations; track location.place_id) {
+            <mat-option [value]="location.description">
+                {{ location.description }}
+            </mat-option>
+            }
         </mat-autocomplete>
-      </mat-form-field>
+    </mat-form-field>
 
     <mat-card class="m-2">
         <mat-card-content>
@@ -41,51 +41,55 @@
         <mat-card-content>
             <span class="fs-5">Current Condition</span>
 
-            <div class="row mb-2">
-                <div class="col">
-                    @if (!weatherService.isLoading()) {
-                    <span>Location: </span>
-                    <span class="fs-5 mf-1">{{getLocationString()}}</span>
-                    }
-                    @else {
-                    <mat-spinner [diameter]="50"></mat-spinner>
-                    }
-                </div>
-                <div class="col">
-                    @if (!weatherService.isLoading()) {
-                    <span>Updated at: </span>
-                    <span class="fs-5 mf-1">{{getDateString() | date: 'medium'}}</span>
-                    }
-                    @else {
-                    <mat-spinner [diameter]="50"></mat-spinner>
-                    }
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <div class="col text-wrap d-flex flex-row justify-content-start align-items-start">
-                    @if (!weatherService.isLoading()) {
-                    <img [src]="getIconUrl()" alt="" class="temp-icon-main">
-                    <div class="d-flex flex-column justify-content-start align-items-start">
-                        <span class="fs-2">{{getCurrentTemp(tempUnitService.unitSignal())}}</span>
-                        <span class="fs-5">{{getCondition()}}</span>
+            <mat-card class="m-2 mat-elevation-z4">
+                <mat-card-content>
+                    <div class="row mb-2">
+                        <div class="col">
+                            @if (!weatherService.isLoading()) {
+                            <span>Location: </span>
+                            <span class="mf-1" [ngClass]="{'fs-6': isSmallWidth(), 'fs-5': !isSmallWidth()}">{{getLocationString()}}</span>
+                            }
+                            @else {
+                            <mat-spinner [diameter]="50"></mat-spinner>
+                            }
+                        </div>
+                        <div class="col">
+                            @if (!weatherService.isLoading()) {
+                            <span>Updated at: </span>
+                            <span class="mf-1" [ngClass]="{'fs-6': isSmallWidth(), 'fs-5': !isSmallWidth()}">{{getDateString() | date: 'medium'}}</span>
+                            }
+                            @else {
+                            <mat-spinner [diameter]="50"></mat-spinner>
+                            }
+                        </div>
                     </div>
-                    }
-                    @else {
-                    <mat-spinner [diameter]="50"></mat-spinner>
-                    }
-                </div>
 
-                <div class="col text-wrap d-flex flex-row justify-content-start align-items-center">
-                    @if (!weatherService.isLoading()) {
-                    <span>Feels Like: </span>
-                    <span class="fs-2 mx-1">{{getFeelsLikeTemp(tempUnitService.unitSignal())}}</span>
-                    }
-                    @else {
-                    <mat-spinner [diameter]="50"></mat-spinner>
-                    }
-                </div>
-            </div>
+                    <div class="row mb-2">
+                        <div class="col text-wrap d-flex flex-row justify-content-start align-items-center">
+                            @if (!weatherService.isLoading()) {
+                            <img [src]="getIconUrl()" alt="" [ngClass]="{'temp-icon-main-mobile': isSmallWidth(), 'temp-icon-main': !isSmallWidth()}">
+                            <div class="d-flex flex-column justify-content-center align-items-start">
+                                <span [ngClass]="{'fs-6': isSmallWidth(), 'fs-2': !isSmallWidth()}">{{getCurrentTemp(tempUnitService.unitSignal())}}</span>
+                                <span [ngClass]="{'fs-6': isSmallWidth(), 'fs-5': !isSmallWidth()}">{{getCondition()}}</span>
+                            </div>
+                            }
+                            @else {
+                            <mat-spinner [diameter]="50"></mat-spinner>
+                            }
+                        </div>
+
+                        <div class="col text-wrap d-flex flex-row justify-content-start align-items-center">
+                            @if (!weatherService.isLoading()) {
+                            <span>Feels Like: </span>
+                            <span class="mx-1" [ngClass]="{'fs-6': isSmallWidth(), 'fs-2': !isSmallWidth()}">{{getFeelsLikeTemp(tempUnitService.unitSignal())}}</span>
+                            }
+                            @else {
+                            <mat-spinner [diameter]="50"></mat-spinner>
+                            }
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
 
             <div class="row mb-2">
                 <mat-chip-set class="d-flex flex-row justify-content-center align-items-center">
@@ -180,17 +184,184 @@
     <mat-card class="m-2">
         <mat-card-content>
             <span class="fs-5">14 Days Forecast</span>
-            <mat-tab-group>
+            @if (!weatherService.isLoading()) {
+            <mat-tab-group (selectedTabChange)="onDaysTabChange($event)" ngSkipHydration>
                 @for (forecastDay of getForeCast14Days(); track forecastDay) {
-                <mat-tab [label]="forecastDay.date">
-                    <mat-card class="m-2">
+                <mat-tab [label]="getForecastDateString(forecastDay.date)">
+                    <mat-card class="m-2 mat-elevation-z4">
                         <mat-card-content>
-                            {{forecastDay.day.maxtemp_c}}
+                            <span class="fs-5">{{getForecastDateString(forecastDay.date)}}</span>
+                            <mat-chip-set class="d-flex flex-row justify-content-center align-items-center">
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Maximum:</span>
+                                        <span class="fs-5 ms-1">{{getForecastMaxTemp(forecastDay.day.maxtemp_c,
+                                            forecastDay.day.maxtemp_f, tempUnitService.unitSignal())}}</span>
+                                        <span class="fs-6 ms-1">{{forecastDay.day.condition.text}}</span>
+                                        <img [src]="forecastDay.day.condition.icon" alt="" class="temp-icon-header">
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Minimum:</span>
+                                        <span class="fs-5 ms-1">{{getForecastMaxTemp(forecastDay.day.mintemp_c,
+                                            forecastDay.day.mintemp_f, tempUnitService.unitSignal())}}</span>
+                                        <span class="fs-6 ms-1">{{forecastDay.day.condition.text}}</span>
+                                        <img [src]="forecastDay.day.condition.icon" alt="" class="temp-icon-header">
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Wind Speed:</span>
+                                        <span
+                                            class="fs-5 ms-1">{{getForecastWindSpeed(forecastDay.day.maxwind_kph)}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Precipitation: </span>
+                                        <span
+                                            class="fs-5 ms-1">{{getForecastPrecipitation(forecastDay.day.totalprecip_mm)}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Humidity: </span>
+                                        <span
+                                            class="fs-5 ms-1">{{getForecastHumidity(forecastDay.day.avghumidity)}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Rain: </span>
+                                        <span
+                                            class="fs-5 ms-1">{{getForecastRainChance(forecastDay.day.daily_chance_of_rain)}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Sunrise: </span>
+                                        <span class="fs-5 ms-1">{{forecastDay.astro.sunrise}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Sunset: </span>
+                                        <span class="fs-5 ms-1">{{forecastDay.astro.sunset}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Moon Phase: </span>
+                                        <span class="fs-5 ms-1">{{forecastDay.astro.moon_phase}}</span>
+                                    </div>
+                                </mat-chip>
+                            </mat-chip-set>
                         </mat-card-content>
                     </mat-card>
                 </mat-tab>
                 }
             </mat-tab-group>
+            }
+            @else {
+            <mat-spinner [diameter]="50"></mat-spinner>
+            }
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="m-2">
+        <mat-card-content>
+            <span class="fs-5">Hourly</span>
+            @if (!weatherService.isLoading()) {
+            <mat-tab-group (selectedTabChange)="onHourlyTabChange($event)" [selectedIndex]="forecastHourlyTabIndex"
+                ngSkipHydration>
+                @for (forecastHour of getHourlyData(); track forecastHour) {
+                <mat-tab [label]="getForecastHourlyDateString(forecastHour.time)">
+                    <mat-card class="m-2 mat-elevation-z4">
+                        <mat-card-content>
+                            <span
+                                class="fs-5">{{getForecastHourlyDateString(getHourlyData()[forecastHourlyTabIndex].time)}}</span>
+                            <mat-chip-set class="d-flex flex-row justify-content-center align-items-center">
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Temperature:</span>
+                                        <span class="fs-5 ms-1">{{getForecastMaxTemp(forecastHour.temp_c,
+                                            forecastHour.temp_f, tempUnitService.unitSignal())}}</span>
+                                        <span class="fs-6 ms-1">{{forecastHour.condition.text}}</span>
+                                        <img [src]="forecastHour.condition.icon" alt="" class="temp-icon-header">
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Feels Like:</span>
+                                        <span class="fs-5 ms-1">{{getForecastMaxTemp(forecastHour.feelslike_c,
+                                            forecastHour.feelslike_f, tempUnitService.unitSignal())}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Heat Index:</span>
+                                        <span class="fs-5 ms-1">{{getForecastMaxTemp(forecastHour.heatindex_c,
+                                            forecastHour.heatindex_f, tempUnitService.unitSignal())}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Wind Speed:</span>
+                                        <span class="fs-5 ms-1">{{getForecastWindSpeed(forecastHour.wind_kph)}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Precipitation: </span>
+                                        <span
+                                            class="fs-5 ms-1">{{getForecastPrecipitation(forecastHour.precip_mm)}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Humidity: </span>
+                                        <span class="fs-5 ms-1">{{getForecastHumidity(forecastHour.humidity)}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Cloud: </span>
+                                        <span class="fs-5 ms-1">{{getForecastHumidity(forecastHour.cloud)}}</span>
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>Rain: </span>
+                                        <span
+                                            class="fs-5 ms-1">{{getForecastRainChance(forecastHour.chance_of_rain)}}</span>
+                                    </div>
+                                </mat-chip>
+                            </mat-chip-set>
+                        </mat-card-content>
+                    </mat-card>
+                </mat-tab>
+                }
+            </mat-tab-group>
+            }
+            @else {
+            <mat-spinner [diameter]="50"></mat-spinner>
+            }
         </mat-card-content>
     </mat-card>
 </main>

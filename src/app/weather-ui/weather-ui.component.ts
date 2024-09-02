@@ -1,16 +1,19 @@
 import { Component, effect, inject, OnInit } from '@angular/core';
 import { MaterialModule } from '../helper/material.module';
-import { CurrentDefaultLocation, CurrentWeatherInterface, ForecastDay, ForecastWeatherInterface, MainCities } from '../interfaces/weatherapi';
+import { CurrentDefaultLocation, CurrentWeatherInterface, ForecastDay, ForecastWeatherInterface, Hour, MainCities } from '../interfaces/weatherapi';
 import { WeatherService } from '../services/weather.service';
 import { TempUnitService } from '../services/tempunit.service';
 import { WidthService } from '../services/width.service';
 import { LocationService } from '../services/location.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { DatePipe } from '@angular/common';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-weather-ui',
   standalone: true,
   imports: [MaterialModule],
+  providers: [DatePipe],
   templateUrl: './weather-ui.component.html',
   styleUrl: './weather-ui.component.scss'
 })
@@ -19,6 +22,7 @@ export class WeatherUiComponent implements OnInit {
   readonly tempUnitService: TempUnitService = inject(TempUnitService);
   private readonly widthService: WidthService = inject(WidthService);
   private readonly locationService: LocationService = inject(LocationService);
+  private readonly datePipe: DatePipe = inject(DatePipe);
 
   locationQuery: string = ''; // Bound to ngModel
   filteredLocations: Array<google.maps.places.AutocompletePrediction> = [];  //autocomplete location list
@@ -26,19 +30,22 @@ export class WeatherUiComponent implements OnInit {
   location!: CurrentDefaultLocation;
   defaultLocationForecast!: ForecastWeatherInterface | null;
 
-  mainCitiesList: Array<string> = ['guwahati', 'delhi', 'mumbai', 'bengaluru', 'hyderabad', 'kolkata', 'chennai']
+  mainCitiesList: Array<string> = ['guwahati', 'mumbai', 'bengaluru', 'hyderabad', 'delhi', 'kolkata', 'chennai', 'ahmedabad', 'gurgaon', 'jaipur', 'chandigarh']
   mainCities!: MainCities;
 
-  constructor() {
+  forecastDayTabIndex: number = 0;
+  forecastHourlyTabIndex: number = 0;
+
+  constructor() {    
     effect(() => {
       this.defaultLocationForecast = this.weatherService.forecastWeather();
       this.widthService.width();
-      console.log(this.defaultLocationForecast);
     });
   }
 
   async ngOnInit(): Promise<void> {
     try {
+      this.assignHourlyTabIndex();
       this.fetchMainCitiesCurrentWeather();
       this.location = await this.fetchCurrentLocation();
       if (this.location) {
@@ -49,6 +56,11 @@ export class WeatherUiComponent implements OnInit {
       const errorMsg = `Not supported in ssr or Unable to retrieve location: ${(error as Error).message}`;
       console.error(errorMsg);
     }
+  }
+
+  private assignHourlyTabIndex(): void {
+    const currentTime: number = new Date().getHours();
+    this.forecastHourlyTabIndex = currentTime;
   }
 
   //auto complete location request
@@ -76,11 +88,13 @@ export class WeatherUiComponent implements OnInit {
             resolve(location);
           },
           error => {
+            this.weatherService.fetchForecast(`${this.mainCitiesList[0]}`);
             console.error(`This is ssr error or Unable to retrieve location ${error}`);
             reject(error);
           }
         );
       } else {
+        this.weatherService.fetchForecast(`${this.mainCitiesList[0]}`);
         console.error('Not supported in ssr or Geolocation is not supported by this browser');
         reject(new Error('Geolocation is not supported by this browser'));
       }
@@ -255,7 +269,7 @@ export class WeatherUiComponent implements OnInit {
 
   getForeCast14Days(): Array<ForecastDay> {
     if (this.defaultLocationForecast) {
-      return this.defaultLocationForecast.forecast.forecastday
+      return this.defaultLocationForecast.forecast.forecastday;
     }
     else {
       return [];
@@ -263,6 +277,56 @@ export class WeatherUiComponent implements OnInit {
   }
 
   isSmallWidth(): boolean {
-    return parseInt(this.widthService.width()) < 768
+    return parseInt(this.widthService.width()) < 768;
+  }
+
+  getForecastDateString(date: string): string {
+    return `${this.datePipe.transform(new Date(date), 'mediumDate')}`;
+  }
+
+  getForecastMaxTemp(tempInC: number, tempInF: number, unit: string): string {
+    if (unit === 'cel') {
+      return `${tempInC} °C`
+    }
+    else {
+      return `${tempInF} °F`
+    }
+  }
+
+  getForecastWindSpeed(speed: number): string {
+    return `${speed} km/h`
+  }
+
+  getForecastPrecipitation(prep: number): string {
+    return `${prep} mm`
+  }
+
+  getForecastHumidity(humidty: number): string {
+    return `${humidty} %`
+  }
+
+  getForecastRainChance(rain: number): string {
+    return `${rain} %`
+  }
+
+  onDaysTabChange(event: MatTabChangeEvent): void {
+    this.forecastDayTabIndex = event.index;
+  }
+
+  onHourlyTabChange(event: MatTabChangeEvent): void {
+    // this.forecastDayTabIndex = event.index;
+  }
+
+  getHourlyData(): Array<Hour>{
+    if(this.defaultLocationForecast){
+      return this.defaultLocationForecast?.forecast.forecastday[this.forecastDayTabIndex].hour;
+    }
+    else{
+      return [];
+    }
+  }
+
+  getForecastHourlyDateString(date: string): string {
+    return `${this.datePipe.transform(new Date(date), 'medium')}`;
   }
 }
