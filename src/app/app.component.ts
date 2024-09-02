@@ -28,7 +28,7 @@ export class AppComponent {
     });
   }
 
-  //theme
+  //assign theme
   private checkTheme(): void {
     if (this.themeService.isThemeLight()) {
       this.setLightTheme();
@@ -38,11 +38,13 @@ export class AppComponent {
     }
   }
 
+  //render dark theme
   private setDarkTheme(): void {
     this.renderer.removeClass(this.document.body, 'light');
     this.renderer.addClass(this.document.body, 'dark');
   }
 
+  //render light theme
   private setLightTheme(): void {
     this.renderer.removeClass(this.document.body, 'dark');
     this.renderer.addClass(this.document.body, 'light');

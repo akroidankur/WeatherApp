@@ -5,13 +5,21 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withFetch } from '@angular/common/http';
 
 import { routes } from './app.routes';
+import { IMAGE_CONFIG } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes), 
-    provideClientHydration(), 
-    provideAnimationsAsync(), 
+    provideRouter(routes),
+    provideClientHydration(),
     provideAnimationsAsync(),
-    provideHttpClient(withFetch())
+    provideAnimationsAsync(),
+    provideHttpClient(withFetch()),
+    {
+      provide: IMAGE_CONFIG,
+      useValue: {
+        disableImageSizeWarning: true,
+        disableImageLazyLoadWarning: true
+      }
+    },
   ]
 };

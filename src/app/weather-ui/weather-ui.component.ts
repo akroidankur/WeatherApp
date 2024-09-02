@@ -36,7 +36,8 @@ export class WeatherUiComponent implements OnInit {
   forecastDayTabIndex: number = 0;
   forecastHourlyTabIndex: number = 0;
 
-  constructor() {    
+  constructor() {
+    // Reactively watch for changes
     effect(() => {
       this.defaultLocationForecast = this.weatherService.forecastWeather();
       this.widthService.width();
@@ -58,6 +59,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //hourly tab adjust to current time
   private assignHourlyTabIndex(): void {
     const currentTime: number = new Date().getHours();
     this.forecastHourlyTabIndex = currentTime;
@@ -131,10 +133,12 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //major cities clicked render in html
   citiesClicked(city: string): void {
     this.weatherService.fetchForecast(city);
   }
 
+  //render location in html
   getLocationString(): string {
     if (this.defaultLocationForecast) {
       return `${this.defaultLocationForecast.location.name}, ${this.defaultLocationForecast.location.region}, ${this.defaultLocationForecast.location.country}`
@@ -144,6 +148,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render date string in html
   getDateString(): string {
     if (this.defaultLocationForecast) {
       return `${new Date(this.defaultLocationForecast.location.localtime)}`
@@ -153,6 +158,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render icon url in html
   getIconUrl(): string {
     if (this.defaultLocationForecast) {
       return `${this.defaultLocationForecast.current.condition.icon}`
@@ -162,6 +168,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render temp in html
   getCurrentTemp(unit: string): string {
     if (this.defaultLocationForecast) {
       if (unit === 'cel') {
@@ -176,6 +183,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render feels like temp in html
   getFeelsLikeTemp(unit: string): string {
     if (this.defaultLocationForecast) {
       if (unit === 'cel') {
@@ -190,6 +198,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render weather condition in html
   getCondition(): string {
     if (this.defaultLocationForecast) {
       return `${this.defaultLocationForecast.current.condition.text}`
@@ -199,6 +208,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render wind speed in html
   getWindSpeed(): string {
     if (this.defaultLocationForecast) {
       return `${this.defaultLocationForecast.current.wind_kph} km/h`
@@ -208,6 +218,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render humidity in html
   getHumidity(): string {
     if (this.defaultLocationForecast) {
       return `${this.defaultLocationForecast.current.humidity} %`
@@ -217,6 +228,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render cloud % in html
   getCloud(): string {
     if (this.defaultLocationForecast) {
       return `${this.defaultLocationForecast.current.cloud} %`
@@ -226,6 +238,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render uv in html
   getUV(): string {
     if (this.defaultLocationForecast) {
       return `${this.defaultLocationForecast.current.uv}`
@@ -235,6 +248,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render prep in html
   getPrecipitation(): string {
     if (this.defaultLocationForecast) {
       return `${this.defaultLocationForecast.current.precip_mm} mm`
@@ -244,6 +258,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render pressure in html
   getPressure(): string {
     if (this.defaultLocationForecast) {
       return `${this.defaultLocationForecast.current.pressure_mb} mb`
@@ -253,6 +268,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render heat index in html
   getHeatIndex(unit: string): string {
     if (this.defaultLocationForecast) {
       if (unit === 'cel') {
@@ -267,6 +283,7 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //return forecast days to for loop in html for rendering
   getForeCast14Days(): Array<ForecastDay> {
     if (this.defaultLocationForecast) {
       return this.defaultLocationForecast.forecast.forecastday;
@@ -276,14 +293,17 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //return boolean for run time screen width change
   isSmallWidth(): boolean {
     return parseInt(this.widthService.width()) < 768;
   }
 
+  //render date string in html
   getForecastDateString(date: string): string {
     return `${this.datePipe.transform(new Date(date), 'mediumDate')}`;
   }
 
+  //render max temp in html
   getForecastMaxTemp(tempInC: number, tempInF: number, unit: string): string {
     if (unit === 'cel') {
       return `${tempInC} °C`
@@ -293,22 +313,27 @@ export class WeatherUiComponent implements OnInit {
     }
   }
 
+  //render wind speed in html
   getForecastWindSpeed(speed: number): string {
     return `${speed} km/h`
   }
 
+  //render prep in html
   getForecastPrecipitation(prep: number): string {
     return `${prep} mm`
   }
 
+  //render humidity in html
   getForecastHumidity(humidty: number): string {
     return `${humidty} %`
   }
 
+  //render rain possibility in html
   getForecastRainChance(rain: number): string {
     return `${rain} %`
   }
 
+  //forecast days tab change event capture
   onDaysTabChange(event: MatTabChangeEvent): void {
     this.forecastDayTabIndex = event.index;
   }
@@ -317,15 +342,17 @@ export class WeatherUiComponent implements OnInit {
     // this.forecastDayTabIndex = event.index;
   }
 
-  getHourlyData(): Array<Hour>{
-    if(this.defaultLocationForecast){
+  //render hourly data of each forecast days in html
+  getHourlyData(): Array<Hour> {
+    if (this.defaultLocationForecast) {
       return this.defaultLocationForecast?.forecast.forecastday[this.forecastDayTabIndex].hour;
     }
-    else{
+    else {
       return [];
     }
   }
 
+  //render time in html
   getForecastHourlyDateString(date: string): string {
     return `${this.datePipe.transform(new Date(date), 'medium')}`;
   }

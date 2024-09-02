@@ -25,6 +25,7 @@ export class HeaderComponent {
   filteredLocations: Array<google.maps.places.AutocompletePrediction> = [];  //autocomplete location list
 
   constructor() {
+    // Reactively watch for changes
     effect(() => {
       this.widthService.width();
     });
@@ -57,6 +58,7 @@ export class HeaderComponent {
     this.weatherService.fetchForecast(event.option.value);
   }
 
+  //return boolean for run time screen width change
   isSmallWidth(): boolean {
     return parseInt(this.widthService.width()) < 768
   }

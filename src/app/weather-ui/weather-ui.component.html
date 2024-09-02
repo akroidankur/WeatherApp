@@ -1,4 +1,5 @@
 <main class="container">
+    <!-- location search autocomplete for mobile screen -->
     <mat-form-field appearance="outline" *ngIf="isSmallWidth()" class="w-100 my-2">
         <mat-label>Location</mat-label>
         <input matInput [matAutocomplete]="auto" [(ngModel)]="locationQuery" (ngModelChange)="onQueryChange($event)">
@@ -11,6 +12,7 @@
         </mat-autocomplete>
     </mat-form-field>
 
+    <!-- major cities mat chips -->
     <mat-card class="m-2">
         <mat-card-content>
             <span class="fs-5">Major Cities</span>
@@ -37,6 +39,7 @@
         </mat-card-content>
     </mat-card>
 
+    <!-- current weather details  -->
     <mat-card class="m-2">
         <mat-card-content>
             <span class="fs-5">Current Condition</span>
@@ -181,6 +184,7 @@
         </mat-card-content>
     </mat-card>
 
+    <!-- forecast 14 days data -->
     <mat-card class="m-2">
         <mat-card-content>
             <span class="fs-5">14 Days Forecast</span>
@@ -277,6 +281,7 @@
         </mat-card-content>
     </mat-card>
 
+    <!-- hourly data of each forecast day -->
     <mat-card class="m-2">
         <mat-card-content>
             <span class="fs-5">Hourly</span>
@@ -291,7 +296,7 @@
                                 class="fs-5">{{getForecastHourlyDateString(getHourlyData()[forecastHourlyTabIndex].time)}}</span>
                             <mat-chip-set class="d-flex flex-row justify-content-center align-items-center">
                                 <mat-chip>
-                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                    <div class="d-flex flex-row justify-content-between align-items-center text-break">
                                         <span>Temperature:</span>
                                         <span class="fs-5 ms-1">{{getForecastMaxTemp(forecastHour.temp_c,
                                             forecastHour.temp_f, tempUnitService.unitSignal())}}</span>
