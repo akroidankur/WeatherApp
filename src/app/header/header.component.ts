@@ -31,6 +31,11 @@ export class HeaderComponent {
     });
   }
 
+  //reload page
+  reloadPage(): void {
+    window.location.reload();
+  }
+
   //toggle temp unit
   onUnitChange(): void {
     if (this.tempUnitService.unitSignal() === 'cel') {

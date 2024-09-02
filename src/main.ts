@@ -8,21 +8,22 @@ if (environment.PRODUCTION) {
   enableProdMode();
 }
 
+// Function to bootstrap the Angular application
 function bootstrapApp() {
   bootstrapApplication(AppComponent, appConfig)
-    .catch((err) => console.error(err));
+    .catch((err) => console.error('Error bootstrapping the app:', err));
 }
 
 if (typeof window !== 'undefined') {
+  // If the window object is available, we are running in a browser environment
   if (document.readyState === 'loading') {
-    // Wait for the DOMContentLoaded event if the document is still loading
-    document.addEventListener('DOMContentLoaded', () => {
-      bootstrapApp();
-    });
+    // The DOM is still loading, so wait for it to finish before bootstrapping
+    document.addEventListener('DOMContentLoaded', bootstrapApp);
   } else {
-    // If the document is already loaded, bootstrap the app immediately
+    // The DOM is fully loaded, bootstrap the app immediately
     bootstrapApp();
   }
 } else {
-  console.error('This code is running in a non-browser environment');
+  // If window is undefined, this is not a browser environment
+  console.error('SSR: Not bootstrapping as this is a server environment');
 }

@@ -6,7 +6,6 @@ import { HeaderComponent } from './header/header.component';
 import { ThemeService } from './services/theme.service';
 import { WeatherService } from './services/weather.service';
 import { WeatherUiComponent } from "./weather-ui/weather-ui.component";
-import { WidthService } from './services/width.service';
 
 @Component({
   selector: 'app-root',

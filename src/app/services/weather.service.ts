@@ -10,6 +10,7 @@ import { catchError, finalize, of } from 'rxjs';
 export class WeatherService {
   private readonly http: HttpClient = inject(HttpClient);
   private readonly apiKey: string = environment.API_KEY;
+  private readonly apiUrl = environment.API_BASE_URL;
 
   readonly isLoading = signal<boolean>(false);
 
@@ -26,7 +27,7 @@ export class WeatherService {
   //fetch location search
   fetchSearch(location: string): void {
     this.isLoading.set(true);
-    this.http.get<SearchLocationInterface>(`/api/search.json?key=${this.apiKey}&q=${location}`)
+    this.http.get<SearchLocationInterface>(`${this.apiUrl}/search.json?key=${this.apiKey}&q=${location}`)
       .pipe(
         catchError(error => {
           this.searchError.set(`Failed to fetch search results. Error: ${error}`);
@@ -47,7 +48,7 @@ export class WeatherService {
   //fetch current weather with given location
   fetchCurrent(location: string): void {
     this.isLoading.set(true);
-    this.http.get<CurrentWeatherInterface>(`/api/current.json?key=${this.apiKey}&q=${location}`)
+    this.http.get<CurrentWeatherInterface>(`${this.apiUrl}/current.json?key=${this.apiKey}&q=${location}`)
       .pipe(
         catchError(error => {
           this.currentWeatherError.set(`Failed to fetch current weather. Error: ${error}`);
@@ -68,7 +69,7 @@ export class WeatherService {
   //fetch forecast weather with given location
   fetchForecast(location: string): void {
     this.isLoading.set(true);
-    this.http.get<ForecastWeatherInterface>(`/api/forecast.json?key=${this.apiKey}&q=${location}&days=14`)
+    this.http.get<ForecastWeatherInterface>(`${this.apiUrl}/forecast.json?key=${this.apiKey}&q=${location}&days=14`)
       .pipe(
         catchError(error => {
           this.forecastWeatherError.set(`Failed to fetch weather forecast. Error: ${error}`);

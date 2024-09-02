@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { MaterialModule } from '../helper/material.module';
 import { CurrentDefaultLocation, CurrentWeatherInterface, ForecastDay, ForecastWeatherInterface, Hour, MainCities } from '../interfaces/weatherapi';
 import { WeatherService } from '../services/weather.service';
@@ -6,7 +6,7 @@ import { TempUnitService } from '../services/tempunit.service';
 import { WidthService } from '../services/width.service';
 import { LocationService } from '../services/location.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { DatePipe } from '@angular/common';
+import { DatePipe, isPlatformBrowser } from '@angular/common';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
@@ -18,6 +18,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
   styleUrl: './weather-ui.component.scss'
 })
 export class WeatherUiComponent implements OnInit {
+  private readonly platformId: Object = inject(PLATFORM_ID)
   readonly weatherService: WeatherService = inject(WeatherService);
   readonly tempUnitService: TempUnitService = inject(TempUnitService);
   private readonly widthService: WidthService = inject(WidthService);
@@ -80,7 +81,7 @@ export class WeatherUiComponent implements OnInit {
   //fetch geolaction current
   private fetchCurrentLocation(): Promise<CurrentDefaultLocation> {
     return new Promise((resolve, reject) => {
-      if (typeof window !== 'undefined' && 'navigator' in window) {
+      if (isPlatformBrowser(this.platformId)) {
         navigator.geolocation.getCurrentPosition(
           position => {
             const location: CurrentDefaultLocation = {
@@ -354,6 +355,10 @@ export class WeatherUiComponent implements OnInit {
 
   //render time in html
   getForecastHourlyDateString(date: string): string {
+    return `${this.datePipe.transform(new Date(date), 'shortTime')}`;
+  }
+
+  getForecastHourlyFullDateString(date: string): string {
     return `${this.datePipe.transform(new Date(date), 'medium')}`;
   }
 }

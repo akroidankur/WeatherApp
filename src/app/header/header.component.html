@@ -3,10 +3,10 @@
   <!-- logo -->
   <div class="container d-flex flex-row justify-content-between align-items-center">
     @if (!themeService.isThemeLight()) {
-    <img src="../../assets/inverted-new-vc-logo.png" alt="" class="logo">
+    <img src="../../assets/inverted-new-vc-logo.png" alt="" class="logo" (click)="reloadPage()">
     }
     @else {
-    <img src="../../assets/new-vc-logo.png" alt="" class="logo">
+    <img src="../../assets/new-vc-logo.png" alt="" class="logo" (click)="reloadPage()">
     }
 
         <!-- location search autocomplete for desktop screen -->
