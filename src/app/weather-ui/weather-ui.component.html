@@ -201,7 +201,6 @@
                                         <span>Maximum:</span>
                                         <span class="fs-5 ms-1">{{getForecastMaxTemp(forecastDay.day.maxtemp_c,
                                             forecastDay.day.maxtemp_f, tempUnitService.unitSignal())}}</span>
-                                        <span class="fs-6 ms-1">{{forecastDay.day.condition.text}}</span>
                                         <img [src]="forecastDay.day.condition.icon" alt="" class="temp-icon-header">
                                     </div>
                                 </mat-chip>
@@ -211,8 +210,13 @@
                                         <span>Minimum:</span>
                                         <span class="fs-5 ms-1">{{getForecastMaxTemp(forecastDay.day.mintemp_c,
                                             forecastDay.day.mintemp_f, tempUnitService.unitSignal())}}</span>
-                                        <span class="fs-6 ms-1">{{forecastDay.day.condition.text}}</span>
                                         <img [src]="forecastDay.day.condition.icon" alt="" class="temp-icon-header">
+                                    </div>
+                                </mat-chip>
+
+                                <mat-chip>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <span>{{forecastDay.day.condition.text}}</span>
                                     </div>
                                 </mat-chip>
 
