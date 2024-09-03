@@ -3,7 +3,7 @@ Weather Dashboard.
 Overview
 The Weather Dashboard is an interactive and fully functional web application that allows users to search for and view current weather conditions and forecasts. It offers an intuitive interface with modern features such as location-based data retrieval, dynamic rendering using Angular signals, and a responsive design that works seamlessly across desktop and mobile devices.
 
-This project meets all the specified requirements and is ready for use. It is deployed on Vercel with server-side rendering (SSR) enabled.
+This project meets all the specified requirements and is ready for use. It is deployed on Vercel with server-side rendering (SSR) enabled with CICD integrated.
 
 
 Live Demo
@@ -45,6 +45,8 @@ Standalone Components: All components are implemented as standalone, promoting a
 Signals: The application leverages Angular's signal-based reactivity model for dynamic data binding and efficient state management.
 
 Server-Side Rendering (SSR): The app is deployed on Vercel with SSR enabled, ensuring faster load times and improved performance.
+
+CICD Integrated.
 
 Bootstrap: For Responsiveness.
 Material Design: The UI is built using Angular Material components, ensuring a consistent and accessible user experience.
