@@ -33,9 +33,7 @@ export class WeatherService {
           this.searchError.set(`Failed to fetch search results. Error: ${error}`);
           return of(null); // Return a null observable in case of error
         }),
-        finalize(() => {
-          this.isLoading.set(false);
-        })
+
       )
       .subscribe(response => {
         if (response) {

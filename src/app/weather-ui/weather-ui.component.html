@@ -187,7 +187,7 @@
     <!-- forecast 14 days data -->
     <mat-card class="m-2">
         <mat-card-content>
-            <span class="fs-5">14 Days Forecast</span>
+            <span class="fs-5">3 Days Forecast</span>
             @if (!weatherService.isLoading()) {
             <mat-tab-group (selectedTabChange)="onDaysTabChange($event)" ngSkipHydration>
                 @for (forecastDay of getForeCast14Days(); track forecastDay) {
