@@ -10,17 +10,14 @@
     }
 
         <!-- location search autocomplete for desktop screen -->
-    <mat-form-field appearance="outline" *ngIf="!isSmallWidth()">
-      <mat-label>Location</mat-label>
-      <input matInput [matAutocomplete]="auto" [(ngModel)]="locationQuery" (ngModelChange)="onQueryChange($event)">
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-        @for (location of filteredLocations; track location.place_id) {
-        <mat-option [value]="location.description">
-          {{ location.description }}
-        </mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
+        <mat-form-field appearance="outline" class="w-50 my-2">
+          <mat-label>Location</mat-label>
+          <input
+            matInput
+            [(ngModel)]="locationQuery"
+            (input)="onQueryChange($event)"
+            (keyup.enter)="fetchForecast()">
+        </mat-form-field>
 
     <!-- toggle for temp unit change -->
     <div class="d-flex flex-row justify-content-between align-items-center">

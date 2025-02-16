@@ -51,20 +51,18 @@ export class HeaderComponent {
     this.themeService.setTheme(!this.themeService.isThemeLight());
   }
 
-  //auto complete location request
-  onQueryChange(query: string): void {
-    this.locationService.fetchLocations(query, (results) => {
-      this.filteredLocations = results;
-    });
-  }
-
-  //on selection of a location from options
-  onOptionSelected(event: MatAutocompleteSelectedEvent): void {
-    this.weatherService.fetchForecast(event.option.value);
-  }
-
   //return boolean for run time screen width change
   isSmallWidth(): boolean {
     return parseInt(this.widthService.width()) < 768
   }
+
+    onQueryChange(event: Event): void {
+      const input = event.target as HTMLInputElement;
+      this.locationQuery = input.value.trim().toLowerCase();
+    }
+
+
+    fetchForecast(): void {
+      this.weatherService.fetchForecast(this.locationQuery);
+    }
 }

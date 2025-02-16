@@ -1,16 +1,6 @@
 <main class="container">
     <!-- location search autocomplete for mobile screen -->
-    <mat-form-field appearance="outline" *ngIf="isSmallWidth()" class="w-100 my-2">
-        <mat-label>Location</mat-label>
-        <input matInput [matAutocomplete]="auto" [(ngModel)]="locationQuery" (ngModelChange)="onQueryChange($event)">
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onOptionSelected($event)">
-            @for (location of filteredLocations; track location.place_id) {
-            <mat-option [value]="location.description">
-                {{ location.description }}
-            </mat-option>
-            }
-        </mat-autocomplete>
-    </mat-form-field>
+   
 
     <!-- major cities mat chips -->
     <mat-card class="m-2">

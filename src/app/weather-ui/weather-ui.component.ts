@@ -66,18 +66,6 @@ export class WeatherUiComponent implements OnInit {
     this.forecastHourlyTabIndex = currentTime;
   }
 
-  //auto complete location request
-  onQueryChange(query: string): void {
-    this.locationService.fetchLocations(query, (results) => {
-      this.filteredLocations = results;
-    });
-  }
-
-  //on selection of a location from options
-  onOptionSelected(event: MatAutocompleteSelectedEvent): void {
-    this.weatherService.fetchForecast(event.option.value);
-  }
-
   //fetch geolaction current
   private fetchCurrentLocation(): Promise<CurrentDefaultLocation> {
     return new Promise((resolve, reject) => {
